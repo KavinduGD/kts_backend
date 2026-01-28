@@ -57,7 +57,7 @@ pipeline {
          stage('Build Docker Image') {
             steps {
                 sh '''
-                docker build -t $DOCKER_USERNAME/$DOCKER_IMAGE:latest .              
+                docker build -f Dockerfile.prod -t $DOCKER_USERNAME/$DOCKER_IMAGE:latest .              
                 '''
             }
         }
