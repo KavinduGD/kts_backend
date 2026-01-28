@@ -13,12 +13,11 @@ pipeline {
             steps{
                 sh '''
                     ls
-                    cd ./backend
                     npm install
                 '''
             }
         }
-        
+
         stage('List Files') {
             steps {
                 sh 'ls -la'
