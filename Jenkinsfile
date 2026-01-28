@@ -1,8 +1,16 @@
 pipeline {
     agent any
+
+    environment {
+        DOCKER_IMAGE = "kts-backend"
+        DOCKER_USERNAME=kavinduorg
+        DOCKERHUB_PASS=credentials('dockerhub-pass')
+    }
+
+
     stages {
 
-        stage('build'){
+        stage('Build'){
             agent{
                 docker{
                     image 'node:20-alpine'
@@ -17,7 +25,7 @@ pipeline {
             }
         }
 
-        stage('test') {
+        stage('Test') {
             steps {
                 sh '''
                     echo "Running tests..."
@@ -46,6 +54,41 @@ pipeline {
             }
         }
 
-        
+         stage('Build Docker Image') {
+            steps {
+                sh '''
+                docker build -t $DOCKER_USERNAME/$DOCKER_IMAGE:latest .
+                docker push $DOCKER_USERNAME/$DOCKER_IMAGE:latest                
+                '''
+            }
+        }
+
+        stage('Login to Docker Hub') {
+            steps {
+                
+                sh '''
+                 echo $DOCKERHUB_PASS | docker login -u $DOCKER_USERNAME --password-stdin
+                '''
+                
+            }
+        }
+
+        stage('Push Image to Docker Hub') {
+            steps {
+                sh '''
+                docker push $DOCKER_USERNAME/$DOCKER_IMAGE:latest 
+                '''
+            }
+        } 
     }
 }
+
+
+ post {
+        always {
+             sh '''
+            docker logout || true
+            docker rmi $DOCKER_USERNAME/$DOCKER_IMAGE:latest || true
+            '''
+        }
+    }
