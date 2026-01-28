@@ -5,6 +5,7 @@ pipeline {
         stage('List Files') {
             steps {
                 sh 'ls -la'
+                sh 'pwd'
             }
         }
     }
