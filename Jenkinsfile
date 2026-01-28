@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "kts-backend"
-        DOCKER_USERNAME=kavinduorg
+        DOCKER_USERNAME="kavinduorg"
         DOCKERHUB_PASS=credentials('dockerhub-pass')
     }
 
@@ -57,8 +57,7 @@ pipeline {
          stage('Build Docker Image') {
             steps {
                 sh '''
-                docker build -t $DOCKER_USERNAME/$DOCKER_IMAGE:latest .
-                docker push $DOCKER_USERNAME/$DOCKER_IMAGE:latest                
+                docker build -t $DOCKER_USERNAME/$DOCKER_IMAGE:latest .              
                 '''
             }
         }
