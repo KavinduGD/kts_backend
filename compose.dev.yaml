@@ -1,0 +1,18 @@
+name: kts
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+    ports:
+      - 4000:4000
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=development
