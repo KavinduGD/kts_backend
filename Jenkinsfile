@@ -12,17 +12,40 @@ pipeline {
             }
             steps{
                 sh '''
-                    ls
                     npm install
                 '''
             }
         }
 
-        stage('List Files') {
+        stage('test') {
             steps {
-                sh 'ls -la'
-                sh 'pwd'
+                sh '''
+                    echo "Running tests..."
+                '''
             }
         }
+
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    def scannerHome = tool 'SonarQubeScanner'
+                    withSonarQubeEnv('sonarqube') {
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+        
     }
 }
