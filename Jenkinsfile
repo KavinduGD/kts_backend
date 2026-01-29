@@ -87,7 +87,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                curl --fail -X POST http://$DEPLOY_SERVER_IP:3000/deploy \
+                curl --fail -X POST http://$DEPLOY_SERVER_IP:3000/backend-deploy \
                     -H "x-deploy-token: $DEPLOY_TOKEN"
                 ''' 
             }
