@@ -5,6 +5,8 @@ pipeline {
         DOCKER_IMAGE = "kts-backend"
         DOCKER_USERNAME="kavinduorg"
         DOCKERHUB_PASS=credentials('dockerhub-pass')
+        DEPLOY_TOKEN=credentials('deploy-token')
+        DEPLOY_SERVER_IP = "10.0.101.213"
     }
 
 
@@ -78,7 +80,18 @@ pipeline {
                 docker push $DOCKER_USERNAME/$DOCKER_IMAGE:latest 
                 '''
             }
-        } 
+        }
+
+        stage('Deploy') {
+            steps {
+                sh '''
+                curl -X POST http://$DEPLOY_SERVER_IP:3000/deploy \
+                    -H "x-deploy-token: $DEPLOY_TOKEN"
+                ''' 
+            }
+        }
+
+
     }
 
      post {
