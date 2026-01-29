@@ -2,7 +2,7 @@ name: kts
 
 services:
   backend:
-    image: 767397975047.dkr.ecr.ap-south-1.amazonaws.com/kts/backend:latest
+    image: kavinduorg/kts-backend:latest
     ports:
       - 4000:4000
     env_file:
