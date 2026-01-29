@@ -6,7 +6,7 @@ pipeline {
         DOCKER_USERNAME="kavinduorg"
         DOCKERHUB_PASS=credentials('dockerhub-pass')
         DEPLOY_TOKEN=credentials('deploy-token')
-        DEPLOY_SERVER_IP = "10.0.101.213"
+        DEPLOY_SERVER_IP = "10.0.101.197"
     }
 
 
