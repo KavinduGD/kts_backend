@@ -82,6 +82,8 @@ pipeline {
             }
         }
 
+        // curl exits with exit code 0 if the HTTP response code is 2xx or 3xx
+        // and with exit error code 22 for 4xx or 5xx responses
         stage('Deploy') {
             steps {
                 sh '''
