@@ -108,7 +108,7 @@ const getAllBuses = asyncHandler(async (req, res) => {
   const buses = await Bus.find({});
 
   if (buses) {
-    res.json("test1", buses);
+    res.json({ test1: buses });
   } else {
     res.status(404);
     throw new Error("No buses found");
