@@ -26,6 +26,14 @@ if (process.env.NODE_ENV === "development") {
   const morgan = require("morgan");
   app.use(morgan("dev"));
 }
+// health check
+app.get("/api/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    uptime: process.uptime(), // how long the server has been running (seconds)
+    timestamp: new Date().toISOString(),
+  });
+});
 
 //routes
 app.use("/api/users", userRoutes);
